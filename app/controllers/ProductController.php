@@ -209,7 +209,7 @@ class ProductController extends BaseController
                         return Redirect::to('/')->with('message', $message);
                     }
 
-                    return View::make('index')->with('products', $products);
+                    return View::make('index')->with(array('products' => $products, 'category' => $date['category'], 'keyword' => $date['srch']));
 
                 }else{
                     $pro = new Categorie();
@@ -217,7 +217,7 @@ class ProductController extends BaseController
                     $products = Product::getSearchesProducts($date['srch'], $product_ids);
                     $products = Product::getSearchesProducts($date['srch'], $product_ids);
 
-                    return View::make('inde+x')->with('products', $products);
+                    return View::make('index')->with(array('products' => $products, 'category' => $date['category'], 'keyword' => $date['srch']));
                 }
             }else{
                 $message = 'there is no such product';

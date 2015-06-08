@@ -50,3 +50,7 @@
     border: 1px solid rgb(100, 160, 211);
     vertical-align: middle;
 }
+
+.container{
+    margin-bottom: 50px !important;
+}

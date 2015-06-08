@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration {
 		{
 			$table->increments('id', true);
 			$table->string('email')->unique();
-			$table->integer('phone_number');
+			$table->string('phone_number');
 			$table->text('password');
 			$table->string('user_name');
 			$table->boolean('is_admin')->default(0);

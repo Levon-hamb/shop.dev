@@ -274,6 +274,7 @@ class PaypalController extends BaseController
         $ids = Input::get('id');
         $qty = Input::get('quantity');
         $valid = $this->validationIdQty($ids,$qty);
+
         if($valid){
             return Response::view('notfound', array(), 404);
         }
@@ -334,13 +335,25 @@ class PaypalController extends BaseController
             }
         }
         foreach($qty as  $key=>$value){
-            $validator = Validator::validId($key);
+            $validator = $this->validId($key);
             if(!$validator){
                 return true;
             }
         }
 
         return false;
+    }
+
+    public function validId($id){
+
+        $pattern = '/^[1-9]{1}+([0-9]{0,10}$)/i';
+        if(preg_match($pattern, $id)){
+            return true;
+        }else{
+            return false;
+        }
+
+
     }
 
 }
