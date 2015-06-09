@@ -23,7 +23,9 @@
                     <div class="row">
                         <div class="col-lg-2"><img style="width: 150px;"  src="{{$product->photo_path}}"></div>
                         <div class="col-lg-8">
+
                             <input type="hidden" value="{{ $product->id }}" name="id[]"/>
+
                             <h2>{{$product->product_name}}</h2>
                             <span>{{$product->product_description}}</span>
                             <p>{{$product->product_price}} {{$product->price_currency}}</p>
@@ -44,6 +46,7 @@
                             {{ Form::close() }}
                         </div>
                     </div>
+                    <input type="hidden" value="cart" name="cart"/>
                     <button type="submit" class="buy_now button" formaction="/payment" id="buy"></button>
             @else
                 <div class="form-group">

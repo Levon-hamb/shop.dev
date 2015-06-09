@@ -10,6 +10,9 @@
 			@if(Session::get('message'))
 				<p class="text-center has-error" style="color: #c9302c">{{Session::get('message')}}</p>
 			@endif
+			@if(Session::get('success'))
+				<p class="text-center has-success" style="color: green">{{Session::get('success')}}</p>
+			@endif
 		@for($i = (count($products) - 1); $i >= 0 ; $i--)
 			<div class="col-lg-4 item">
 				<div class="panel panel-default">

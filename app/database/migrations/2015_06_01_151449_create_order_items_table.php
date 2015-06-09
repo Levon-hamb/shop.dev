@@ -19,6 +19,7 @@ class CreateOrderItemsTable extends Migration {
 			$table->integer('qty');
 			$table->integer('price');
 			$table->integer('order_id')->unsigned();
+			$table->string('currency');
 
 		});
 

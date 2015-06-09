@@ -64,6 +64,16 @@ class Product extends Eloquent
         $products = $products->distinct()->get()->toArray();
         return $products;
     }
+
+    public static function soldQty($products){
+        foreach($products as $product){
+            $prod = Product::where('id', $product->product_id)->get()->toArray();
+            $sold_qty = $prod[0]["sold_qty"];
+            $total = $sold_qty + $product->qty;
+            $sold = Product::where('id', $product->product_id)->update(array('sold_qty' => $total));
+        }
+        return true;
+    }
 }
 
 ?>

@@ -20,7 +20,6 @@ class PaypalController extends BaseController
     private $_api_context;
     public function __construct()
     {
-
 // setup PayPal api context
         $paypal_conf = Config::get('paypal');
         $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_conf['client_id'], $paypal_conf['secret']));
@@ -30,15 +29,15 @@ class PaypalController extends BaseController
 
     public function postPayment()
     {
-
         $ids = Input::get('id');
         $qty = Input::get('quantity');
-
+        if(Input::get('cart')){
+            $cart =  Session::put('cartPayment', Input::get('cart'));
+        }
         $valid = $this->validationIdQty($ids,$qty);
         if($valid){
             return Response::view('notfound', array(), 404);
         }
-
 
         $products = Product::whereIn('id', $ids)->get();
         if(!count($products)){
@@ -106,24 +105,28 @@ class PaypalController extends BaseController
         }
         // add payment ID to session
         Session::put('paypal_payment_id', $payment->getId());
+        $transaction_id = Session::get('paypal_payment_id');
+
 
         if(isset($redirect_url)) {
         // redirect to paypal
+            $order_id = Order::add($transaction_id);
+            OrderItem::add($products, $qty, $order_id);
+
             return Redirect::away($redirect_url);
         }
-        return Redirect::route('original.route')
+        return Redirect::to('/')
             ->with('error', 'Unknown error occurred');
     }
 
     public function getPaymentStatus()
     {
-
         // Get the payment ID before session clear
         $payment_id = Session::get('paypal_payment_id');
         // clear the session payment ID
         Session::forget('paypal_payment_id');
         if (empty(Input::get('PayerID')) || empty(Input::get('token'))) {
-            return Redirect::route('original.route')
+            return Redirect::to('/')
                 ->with('error', 'Payment failed');
         }
         $payment = Payment::get($payment_id, $this->_api_context);
@@ -136,48 +139,28 @@ class PaypalController extends BaseController
 //Execute the payment
         $result = $payment->execute($execution, $this->_api_context);
 
-
-        echo '<pre>';
-        var_dump($result->transactions);
-        var_dump(Session::get('cart'));
-        exit;
-//        dd('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-
-        echo '<pre>';print_r($result);echo '</pre>';exit;
          // DEBUG RESULT, remove it later
         if ($result->getState() == 'approved') { // payment made
-            return Redirect::route('original.route')
-                ->with('success', 'Payment success');
+            $state = 'approved';
+            Order::state_update($payment_id, $state);
+            $order = Order::getId($payment_id);
+            $ord = new Order();
+            $items = $ord->find($order->id)->items;
+            Product::soldQty($items);
+            if(Session::has('cartPayment')){
+                Session::forget('cartPayment');
+                Session::forget('cart');
+
+            }
+
+//            echo '<pre>';print_r($result);echo '</pre>';exit;
+            return Redirect::to('/')->with('success', 'Payment success');
         }
-        return Redirect::route('original.route')
+
+        $state = 'error';
+        Order::state_update($payment_id, $state);
+        return Redirect::to('/')
             ->with('error', 'Payment failed');
-    }
-
-    public function getSuccessPayment()
-    {
-        $gateway = Omnipay::create('PayPal_Express');
-        $gateway->setUsername('paypal account');
-        $gateway->setPassword('paypal password');
-        $gateway->setSignature('AiPC9BjkCyDFQXbSkoZcgqH3hpacASJcFfmT46nLMylZ2R-SV95AaVCq');
-        $gateway->setTestMode(true);
-
-        $params = Session::get('params');
-
-        $response = $gateway->completePurchase($params)->send();
-        $paypalResponse = $response->getData(); // this is the raw response object
-
-        if(isset($paypalResponse['PAYMENTINFO_0_ACK']) && $paypalResponse['PAYMENTINFO_0_ACK'] === 'Success') {
-
-            // Response
-            // print_r($paypalResponse);
-
-        } else {
-
-            //Failed transaction
-
-        }
-
-        return View::make('result');
     }
 
     public function addToCart(){

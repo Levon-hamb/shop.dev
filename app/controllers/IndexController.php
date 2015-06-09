@@ -5,8 +5,6 @@ class IndexController extends BaseController {
 
     public function index()
     {
-//        $paypal = new PayPal\Rest\ApiContext(1,1);
-//        dd($paypal);
         $products = Product::all();
         return View::make('index')->with('products', $products);
     }
