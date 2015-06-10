@@ -35,16 +35,11 @@ class Order extends Eloquent{
 
     public static function getItems(){
         $orders = DB::table('orders')
-            ->join('order_items', function($join)
-        {
-            $join->on('orders.id', '=', 'order_items.order_id')
-                ->where('orders.user_id', '=', Auth::id());
-        })
-//            ->join('orders', 'orders.user_id', '=', Auth::id())
+            ->join('order_items AS item ', 'orders.id', '=', 'item.order_id')
+            ->join('products AS prod', 'item.product_id', '=', 'prod.id')
+            ->where('orders.user_id', '=', Auth::id())
+            ->where('state', 'approved')
             ->get();
         return $orders;
-
-//        $orders =  Order::where('user_id', Auth::id())->get();
-//        return $orders;
     }
 }

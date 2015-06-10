@@ -349,6 +349,8 @@ class OrderController extends BaseController
         if($orders){
             echo "<pre>";
             dd($orders);
+            return View::make('product/purchased')->with('products', $orders);
+
         }
 
     }
