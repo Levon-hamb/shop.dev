@@ -2,7 +2,7 @@
 // this is after make the payment, PayPal redirect back to your site
 Route::get('payment/status', array(
     'as' => 'payment.status',
-    'uses' => 'PaypalController@getPaymentStatus',
+    'uses' => 'OrderController@getPaymentStatus',
 ));
 Route::get('payment/cancel_order', array(
     'as' => 'payment.cancel_order',
@@ -28,11 +28,11 @@ Route::get('/product/{id}', 'ProductController@getProduct');
 Route::post('uniqueEmail', 'UserController@uniqueEmail');
 Route::post('/save_pass', 'UserController@save_pass');
 Route::post('saveProfile', 'UserController@saveProfile');
-Route::get('/cart', 'PaypalController@cart');
-Route::post('/addcart', 'PaypalController@addToCart');
+Route::get('/cart', 'OrderController@cart');
+Route::post('/addcart', 'OrderController@addToCart');
 Route::post('/search', 'ProductController@search');
-Route::get('/deletecartprod/{id}', 'PaypalController@deleteCartProduct');
-Route::post('/savecart', 'PaypalController@saveCart');
+Route::get('/deletecartprod/{id}', 'OrderController@deleteCartProduct');
+Route::post('/savecart', 'OrderController@saveCart');
 
 Route::group(['before'=>'guest'],function(){
     Route::post('signup', 'UserController@signUp');
@@ -55,10 +55,12 @@ Route::group(['before'=>'user'],function(){
     Route::get('/edit/{id}', 'ProductController@edit');
     Route::post('/edit', 'ProductController@edit_save');
     Route::get('/delete/{id}', 'ProductController@delete');
+    Route::get('/soldProducts', 'OrderController@soldProducts');
+    Route::get('/purchasedProducts', 'OrderController@purchasedProducts');
     // Add this route for checkout or submit form to pass the item into paypal
     Route::post('/payment', array(
         'as' => 'payment',
-        'uses' => 'PaypalController@postPayment',
+        'uses' => 'OrderController@postPayment',
     ));
 });
 

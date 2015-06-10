@@ -21,6 +21,9 @@
                             <p class="help-block">field is invalid</p>
                             <p class="help-block low" >enter low quantity</p>
                         </div>
+                        <div class="form-group">
+                            {{$product->sold_qty}} sold
+                        </div>
                         <button type="submit" class="add_to_cart button" formaction="/addcart"></button>
                         <button type="submit" class="buy_now button" formaction="/payment"></button>
                     </p>

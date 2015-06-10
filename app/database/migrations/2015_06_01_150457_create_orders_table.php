@@ -16,9 +16,14 @@ class CreateOrdersTable extends Migration {
 		{
 			$table->increments('id', true);
 			$table->string('transaction_id')->unique();
-			$table->string('state');
+            $table->integer('user_id')->unsigned();
+            $table->string('state');
 			$table->timestamps();
 		});
+
+        Schema::table('orders', function($table) {
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
 	}
 
 	/**

@@ -5,7 +5,7 @@
     </div>
     <?php $cat = Categorie::all();?>
     <div class="form-group">
-        <select name="category" id="category" class="form-control" title="Select a category for search">
+        <select name="category" id="category" class="form-control" title="Select a category for search" >
 
             <option value="0" @if(isset($category) && $category == 0) selected @endif>All Categories</option>
             @foreach($cat as $c)
