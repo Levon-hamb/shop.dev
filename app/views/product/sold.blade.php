@@ -12,7 +12,7 @@
                 <img style="width: 200px;" src="{{$product->photo_path}}" alt=""/>
                 {{$product->product_description}}
                 <p>{{$product->product_price}} {{$product->price_currency}}</p>
-                <p>Quantity {{$product->qty}} </p>
+                s<p>Quantity {{$product->qty}} </p>
                 <p>Date  {{$product->created_at}} </p>
             </div>
         @endforeach

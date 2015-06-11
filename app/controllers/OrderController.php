@@ -341,18 +341,36 @@ class OrderController extends BaseController
 
     public function soldProducts(){
 
+        $orders = Order::getSoldItems();
+        if($orders){
+            return View::make('product/sold')->with('products', $orders);
+
+        }
     }
 
     public function purchasedProducts(){
 
-        $orders = Order::getItems();
+        $orders = Order::getPurchasedItems();
         if($orders){
-            echo "<pre>";
-            dd($orders);
             return View::make('product/purchased')->with('products', $orders);
+        }
+    }
+
+    public function allPurchased(){
+        $orders = Order::getAllPurchasedItems();
+        if($orders){
+            return View::make('product/purchased')->with('products', $orders);
+        }
+    }
+
+    public function allSold(){
+        $orders = Order::getAllSoldItems();
+        if($orders){
+            return View::make('product/sold')->with('products', $orders);
 
         }
-
     }
+
+
 
 }

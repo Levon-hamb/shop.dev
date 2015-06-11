@@ -2,6 +2,8 @@
 
 
 @section('content')
+    <div class="border">
+    </div>
     <div class="container">
         <hr>
         <div class="row vertical-center-row">

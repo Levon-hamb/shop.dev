@@ -21,6 +21,8 @@ Route::group(['before'=>'admin', 'prefix'=>'/admin'],function(){
     Route::post('/addCategory', 'AdminController@addCat');
     Route::get('/editCategory/{id}', 'AdminController@editCat');
     Route::get('/deleteCategory/{id}', 'AdminController@deleteCat');
+    Route::get('/soldProducts', 'OrderController@allSold');
+    Route::get('/purchasedProducts', 'OrderController@allPurchased');
 });
 
 Route::get('/', 'IndexController@index');

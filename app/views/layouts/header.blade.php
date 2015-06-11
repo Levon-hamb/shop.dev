@@ -13,6 +13,7 @@
 
 @if(Auth::check())
 <header class="navbar navbar-fixed-top header" style="margin-top: 0px">
+<div class="navbar navbar-default" id="subnav" style="margin-top: 0">
     <div class="col-md-12">
         <div class="navbar-header">
             <a href="/" class="navbar-brand">Shop Market</a>
@@ -23,10 +24,10 @@
         <div class="collapse navbar-collapse" id="navbar-collapse1">
             @include('layouts.search')
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/" >Market+</a></li>
+                {{--<li><a href="/" >Market+</a></li>--}}
                 <li><a href="/cart" title="cart"><i class="glyphicon glyphicon-shopping-cart"></i> @if(Session::has('cart') && count(Session::get('cart')) != 0)<div class="cart">{{count(Session::get('cart'))}}</div>@endif</a></li>
-                <li><a href="/purchasedProducts" title="Purchased Products"><i class="glyphicon glyphicon-open-file"></i> </a></li>
-                <li><a href="/soldProducts" title="Sold Products"><i class="glyphicon glyphicon-export"></i> </a></li>
+                <li><a @if(Auth::user()->is_admin == 0)href="/purchasedProducts"@elseif(Auth::user()->is_admin == 1)href="admin/purchasedProducts"@endif   title="Purchased Products"><i class="glyphicon glyphicon-open-file"></i> </a></li>
+                <li><a @if(Auth::user()->is_admin == 0)href= "/soldProducts"@elseif(Auth::user()->is_admin == 1)href="admin/soldProducts"@endif title="Sold Products"><i class="glyphicon glyphicon-save-file"></i> </a></li>
 
                 @if(Auth::user()->is_admin==1)
                     <li><a href="/admin/categories" title="categories"><i class="glyphicon glyphicon-list-alt"></i></a></li>
@@ -36,6 +37,7 @@
                 <li><a href="/logout" title="logout"><i class="glyphicon glyphicon-log-out"></i></a></li>
             </ul>
         </div>
+    </div>
     </div>
 </header>
 @else
