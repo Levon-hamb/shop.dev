@@ -56,7 +56,7 @@ class AdminController extends BaseController
         return Redirect::to('/admin/categories');
     }
 
-    public function savecat(){
+    public function saveCat(){
         $date = Input::all();
 
         $rules = array(
@@ -77,6 +77,20 @@ class AdminController extends BaseController
             }
 
         }
-//        dd($date);
+    }
+
+    public function allPurchased(){
+        $orders = Order::getAllPurchasedItems();
+        if($orders){
+            return View::make('product/purchased')->with('products', $orders);
+        }
+    }
+
+    public function allSold(){
+        $orders = Order::getAllSoldItems();
+        if($orders){
+            return View::make('product/sold')->with('products', $orders);
+
+        }
     }
 }

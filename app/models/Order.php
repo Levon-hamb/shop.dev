@@ -57,11 +57,26 @@ class Order extends Eloquent{
     }
 
     public static function getAllSoldItems(){
-
+        $orders = DB::table('products as p')
+            ->join('order_items AS oi ', 'p.id', '=', 'oi.product_id')
+            ->join('orders AS o', 'oi.order_id', '=', 'o.id')
+//            ->where('p.user_id', Auth::id())
+            ->where('o.state', 'approved')
+            ->select('oi.qty', 'p.product_name', 'p.photo_path', 'p.product_description', 'p.product_price',
+                'p.price_currency', 'o.created_at')
+            ->get();
+        return $orders;
     }
 
     public static function getAllPurchasedItems(){
-
+        $orders = DB::table('orders as o')
+            ->join('order_items AS oi ', 'o.id', '=', 'oi.order_id')
+            ->join('products AS p', 'oi.product_id', '=', 'p.id')
+            ->where('o.user_id', '=', Auth::id())
+            ->where('state', 'approved')
+            ->select('oi.qty', 'p.product_name', 'p.photo_path', 'p.product_description', 'p.product_price', 'p.price_currency', 'o.created_at')
+            ->get();
+        return $orders;
     }
 
 
