@@ -33,7 +33,7 @@ Route::post('/addcart', 'OrderController@addToCart');
 Route::post('/search', 'ProductController@search');
 Route::get('/deletecartprod/{id}', 'OrderController@deleteCartProduct');
 Route::post('/savecart', 'OrderController@saveCart');
-
+          
 Route::group(['before'=>'guest'],function(){
     Route::post('signup', 'UserController@signUp');
     Route::post('signin', 'UserController@signIn');
