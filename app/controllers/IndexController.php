@@ -23,13 +23,9 @@ class IndexController extends BaseController {
         return View::make('forgotpass');
     }
 
-
-
     public function forgotPass()
     {
-
         $date = Input::all();
-
         $rules = array(
             'email' => 'required|email|NotUnique:users',
         );
@@ -58,9 +54,7 @@ class IndexController extends BaseController {
                     echo $link;
                 }else{
                     dd($link);
-
                     $message = "Email send successful" . $link;
-
                     return View::make('index')->with('message', $message);
                 }
             } else {
@@ -75,10 +69,4 @@ class IndexController extends BaseController {
         return View::make('user/resetPassword')->with('id',$user_id);
     }
 
-    public function paypal(){
-        echo "<pre>";
-        var_dump($_POST);
-
-        dd('paypaaaaaaaaaaaaaaal');
-    }
 }

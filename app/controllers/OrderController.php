@@ -356,6 +356,9 @@ class OrderController extends BaseController
         }
     }
 
+    public function cancelOrder(){
+        return Redirect::to('/')->with('message', 'Order canceled');
+    }
 
 
 

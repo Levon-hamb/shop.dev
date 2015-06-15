@@ -6,7 +6,7 @@ Route::get('payment/status', array(
 ));
 Route::get('payment/cancel_order', array(
     'as' => 'payment.cancel_order',
-    'uses' => 'IndexController@index'
+    'uses' => 'OrderController@cancelOrder'
 ));
 
 App::missing(function($exception)
