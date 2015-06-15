@@ -8,24 +8,21 @@ $(document).ready(function(){
 //    });
 //    var msnry = $container.data('masonry');
 
+    $('#search').click(function(e){
+        var search = $('#srch').val();
+        var category =$( "#category option:selected" ).val();
 
-    //$('#search').click(function(e){
-    //    e.preventDefault();
-    //
-    //    var search = $('#srch').val();
-    //    var category =$( "#category option:selected" ).val();
-    //
-    //    if(category == 0 && search){
-    //        //alert('asdasdasd');
-    //        window.location.href = "/search/"+search;
-    //    }else if(category != 0 && search){
-    //        window.location.href = "/search/"+category+'/'+search;
-    //    }
-    //    else if(category != 0 && search.length < 1){
-    //        window.location.href = "/search/category/"+category;
-    //    }
-    //});
 
+        if(category == 0 && !searchKey(search)) {
+            e.preventDefault();
+            //alert('asdasdasd');
+            return false;
+        }
+    });
+    function searchKey(key){
+        var pattern = new RegExp(/^([a-z0-9]{1,18}$)/i);
+        return pattern.test(key);
+    }
     $('#categories').click(function(){
         $(this).next('.hidee').slideToggle();
     });
@@ -48,7 +45,6 @@ $(document).ready(function(){
         var isValidEmail = true;
         var isValidPass = true;
         var remember = $('#checkbox').is(":checked");
-//console.log(remember);
         if(validateEmail(email)){
             $('#email').parent().removeClass('has-error');
             $('#email').next('.help-block').hide();
@@ -68,7 +64,6 @@ $(document).ready(function(){
             $('#password').next('.help-block').show();
             isValidPass = false;
         }
-
 
         if(isValidPass == false || isValidEmail == false){
             return isValidPass;

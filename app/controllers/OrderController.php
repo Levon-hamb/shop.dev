@@ -360,7 +360,4 @@ class OrderController extends BaseController
         return Redirect::to('/')->with('message', 'Order canceled');
     }
 
-
-
-
 }
